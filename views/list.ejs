@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Todo-List Weekday</title>
+  </head>
+  <body>
+    <form action="/" method="post">
+      <h1><%= today%></h1>
+
+      <input type="text" name="inputText1">
+      <button type="submit" name="button"> Add</button>
+      <ul>
+        <li>Buy Food</li>
+        <li>Study</li>
+        <li>Eat</li>
+        <li> <%= newItem%> </li>
+      </ul>
+
+    </form>
+  </body>
+</html>
