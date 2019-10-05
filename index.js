@@ -4,65 +4,61 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
-var items = [];
+var items = ["1", "2"];
+var workItems = [];
 
 app.set('view engine', 'ejs');
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(express.static("public"));
 
-app.get("/", function(req, res){
+app.get("/", function(req, res) {
 
-var currentDay = new Date();
-var options = {
-  weekday: "long",
-  month: "long",
-  day: "numeric"
-};
-var day = currentDay.toDateString("en-US", options);
-
-
-res.render("list", {today: day, newItems: items});
+  var currentDay = new Date();
+  var options = {
+    weekday: "long",
+    month: "long",
+    day: "numeric"
+  };
+  var day = currentDay.toDateString("en-US", options);
+  res.render("list", {
+    listTitle: day,
+    newItems: items
+  });
 });
 
-app.post("/", function(req, res){
+app.post("/", function(req, res) {
   var item = req.body.inputText1;
-  items.push(item);
 
-  res.redirect("/");
+  if (req.body.list === "Work") {
+    workItems.push(item);
+    res.redirect("/work");
+  } else {
+    items.push(item);
+    res.redirect("/");
+  }
+
+
 });
 
-/* currentDay = currentDay.getDay();
-myDay = "";
+app.get("/work", function(req, res) {
+  res.render("list", {
+    listTitle: "Work Items",
+    newItems: workItems
+  });
+});
 
-switch (currentDay) {
-case 0:
-myDay = "Sunday";
-break;
-case 1:
-myDay = "Monday";
-break;
-case 2:
-myDay = "Tuesday";
-break;
-case 3:
-myDay = "Wednesday";
-break;
-case 4:
-myDay = "Thursday";
-break;
-case 5:
-myDay = "Friday";
-break;
-case 6:
-myDay = "Saturday";
-break;
-  default: console.log("Error");
-}
-*/
+app.post("/work", function(req, res) {
+  var item = req.body.inputText1;
+  workItems.push(item);
+  res.redirect("/work");
+});
 
+app.get("/about", function(req, res){
+  res.render("about");
+});
 
-
-
-app.listen(process.env.PORT || port, function(){
+app.listen(process.env.PORT || port, function() {
   console.log("listening");
 });
