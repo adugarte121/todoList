@@ -21,12 +21,14 @@ var options = {
 var day = currentDay.toDateString("en-US", options);
 
 
-res.render("list", {today: day, newItem: items});
+res.render("list", {today: day, newItems: items});
 });
 
 app.post("/", function(req, res){
   var item = req.body.inputText1;
   items.push(item);
+
+  res.redirect("/");
 });
 
 /* currentDay = currentDay.getDay();
